@@ -1,6 +1,6 @@
-# ES Sizing Calculator v0.1
+# Elastic Size Calculator v0.1
 
-Elasticsearch 저장량 산정을 위한 frontend-only v0.1 MVP입니다. 정적 Next.js + TypeScript 앱으로 동작하며, 계산 엔진과 Storage Profile은 `frontend/src/lib`의 순수 TypeScript 모듈과 상수로 구현되어 있습니다.
+Elastic Size Calculator는 Elasticsearch 저장 용량 산정을 위한 frontend-only v0.1 MVP입니다. 정적 Next.js + TypeScript 앱으로 동작하며, 계산 엔진과 Storage Profile은 `frontend/src/lib`의 순수 TypeScript 모듈과 상수로 구현되어 있습니다.
 
 ## Frontend
 

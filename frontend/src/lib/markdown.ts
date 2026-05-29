@@ -23,7 +23,7 @@ export function buildSizingMarkdown(input: SizingInput, result: SizingResult): s
     ? warnings.map((warning) => `- ${warning}`).join("\n")
     : "- 특이 사항 없음";
 
-  return `# ES Sizing 결과
+  return `# Elastic Size Calculator 결과
 
 ## 산정 케이스 요약
 - 프로젝트명: ${input.projectName}

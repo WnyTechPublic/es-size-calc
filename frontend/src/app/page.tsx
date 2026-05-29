@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <main>
       <header className="page-header">
-        <h1>ES Sizing Calculator</h1>
+        <h1>Elastic Size Calculator</h1>
         <p>v0.1 MVP</p>
       </header>
       {errors.length > 0 ? (
