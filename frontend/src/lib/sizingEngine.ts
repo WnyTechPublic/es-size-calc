@@ -1,10 +1,10 @@
-import type { SizingInput, SizingResult } from "./types";
+import type { SizingResult, ValidSizingInput } from "./types";
 
 function round2(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
 
-export function calculateSizing(input: SizingInput): SizingResult {
+export function calculateSizing(input: ValidSizingInput): SizingResult {
   const dailyPrimaryGb = input.dailyRawGb * input.storageRatio;
   const retentionPrimaryGb = dailyPrimaryGb * input.retentionDays;
   const withReplicaGb = retentionPrimaryGb * (1 + input.replicaCount);

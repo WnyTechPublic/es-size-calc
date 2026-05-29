@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { ResultSummary } from "../components/ResultSummary";
 import { SizingForm } from "../components/SizingForm";
 import { calculateSizing } from "../lib/sizingEngine";
-import type { SizingInput, SizingResult } from "../lib/types";
+import type { SizingInput, SizingResult, ValidSizingInput } from "../lib/types";
 import { validateSizingInput } from "../lib/validation";
 
-const defaultInput: SizingInput = {
+const defaultInput: ValidSizingInput = {
   dailyRawGb: 300,
   storageRatio: 0.462,
   retentionDays: 104,
@@ -25,8 +25,8 @@ export default function Home() {
   useEffect(() => {
     const validation = validateSizingInput(input);
     setErrors(validation.errors);
-    if (validation.valid) {
-      setResult(calculateSizing(input));
+    if (validation.value) {
+      setResult(calculateSizing(validation.value));
     }
   }, [input]);
 

@@ -1,14 +1,14 @@
 "use client";
 
-import type { SizingInput } from "../lib/types";
+import type { NumericInput, SizingInput } from "../lib/types";
 
 interface SizingFormProps {
   value: SizingInput;
   onChange: (value: SizingInput) => void;
 }
 
-function toNumber(value: string): number {
-  return Number(value);
+function parseNumericInput(value: string): NumericInput {
+  return value === "" ? "" : Number(value);
 }
 
 export function SizingForm({ value, onChange }: SizingFormProps) {
@@ -23,7 +23,9 @@ export function SizingForm({ value, onChange }: SizingFormProps) {
             step="1"
             type="number"
             value={value.dailyRawGb}
-            onChange={(event) => onChange({ ...value, dailyRawGb: toNumber(event.target.value) })}
+            onChange={(event) =>
+              onChange({ ...value, dailyRawGb: parseNumericInput(event.target.value) })
+            }
           />
         </label>
         <label>
@@ -33,7 +35,9 @@ export function SizingForm({ value, onChange }: SizingFormProps) {
             step="0.001"
             type="number"
             value={value.storageRatio}
-            onChange={(event) => onChange({ ...value, storageRatio: toNumber(event.target.value) })}
+            onChange={(event) =>
+              onChange({ ...value, storageRatio: parseNumericInput(event.target.value) })
+            }
           />
         </label>
         <label>
@@ -43,7 +47,9 @@ export function SizingForm({ value, onChange }: SizingFormProps) {
             step="1"
             type="number"
             value={value.retentionDays}
-            onChange={(event) => onChange({ ...value, retentionDays: toNumber(event.target.value) })}
+            onChange={(event) =>
+              onChange({ ...value, retentionDays: parseNumericInput(event.target.value) })
+            }
           />
         </label>
         <label>
@@ -53,7 +59,9 @@ export function SizingForm({ value, onChange }: SizingFormProps) {
             step="1"
             type="number"
             value={value.replicaCount}
-            onChange={(event) => onChange({ ...value, replicaCount: toNumber(event.target.value) })}
+            onChange={(event) =>
+              onChange({ ...value, replicaCount: parseNumericInput(event.target.value) })
+            }
           />
         </label>
         <label>
@@ -63,7 +71,9 @@ export function SizingForm({ value, onChange }: SizingFormProps) {
             step="0.05"
             type="number"
             value={value.safetyMargin}
-            onChange={(event) => onChange({ ...value, safetyMargin: toNumber(event.target.value) })}
+            onChange={(event) =>
+              onChange({ ...value, safetyMargin: parseNumericInput(event.target.value) })
+            }
           />
         </label>
         <label>
@@ -74,7 +84,7 @@ export function SizingForm({ value, onChange }: SizingFormProps) {
             type="number"
             value={value.effectiveDiskGbPerNode}
             onChange={(event) =>
-              onChange({ ...value, effectiveDiskGbPerNode: toNumber(event.target.value) })
+              onChange({ ...value, effectiveDiskGbPerNode: parseNumericInput(event.target.value) })
             }
           />
         </label>

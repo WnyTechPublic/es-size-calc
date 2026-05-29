@@ -14,7 +14,16 @@ const validInput: SizingInput = {
 
 describe("validateSizingInput", () => {
   it("accepts the default spreadsheet input", () => {
-    expect(validateSizingInput(validInput)).toEqual({ valid: true, errors: [] });
+    const result = validateSizingInput(validInput);
+
+    expect(result).toEqual({ valid: true, errors: [], value: validInput });
+  });
+
+  it("keeps empty inputs invalid without coercing them to zero", () => {
+    const result = validateSizingInput({ ...validInput, dailyRawGb: "" });
+
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain("일일 원본 수집량은 0보다 커야 합니다.");
   });
 
   it("rejects invalid numeric inputs", () => {

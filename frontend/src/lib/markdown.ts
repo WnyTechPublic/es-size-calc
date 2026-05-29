@@ -1,4 +1,4 @@
-import type { SizingInput, SizingResult } from "./types";
+import type { NumericInput, SizingInput, SizingResult } from "./types";
 
 export function formatGb(value: number): string {
   const gb = Number(value || 0).toFixed(2);
@@ -8,16 +8,28 @@ export function formatGb(value: number): string {
   return `${gb} GB`;
 }
 
+function formatInput(value: NumericInput): string {
+  return value === "" ? "" : String(value);
+}
+
+function formatInputGb(value: NumericInput): string {
+  return value === "" ? "" : formatGb(Number(value));
+}
+
+function formatPercent(value: NumericInput): string {
+  return value === "" ? "" : `${(Number(value) * 100).toFixed(0)}%`;
+}
+
 export function buildSizingMarkdown(input: SizingInput, result: SizingResult): string {
   return `# Elastic Size Calculator 결과
 
 ## 입력
-- 일일 원본 수집량: ${input.dailyRawGb} GB/day
-- ES 저장 비율: ${input.storageRatio}
-- 보관일수: ${input.retentionDays}일
-- Replica 수: ${input.replicaCount}
-- 운영 여유율: ${(input.safetyMargin * 100).toFixed(0)}%
-- 노드당 유효 저장량: ${formatGb(input.effectiveDiskGbPerNode)}
+- 일일 원본 수집량: ${formatInput(input.dailyRawGb)} GB/day
+- ES 저장 비율: ${formatInput(input.storageRatio)}
+- 보관일수: ${formatInput(input.retentionDays)}일
+- Replica 수: ${formatInput(input.replicaCount)}
+- 운영 여유율: ${formatPercent(input.safetyMargin)}
+- 노드당 유효 저장량: ${formatInputGb(input.effectiveDiskGbPerNode)}
 
 ## 계산식
 - 일일 ES Primary = 일일 원본 수집량 × ES 저장 비율

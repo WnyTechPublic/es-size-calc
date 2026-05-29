@@ -1,4 +1,15 @@
+export type NumericInput = number | "";
+
 export interface SizingInput {
+  dailyRawGb: NumericInput;
+  storageRatio: NumericInput;
+  retentionDays: NumericInput;
+  replicaCount: NumericInput;
+  safetyMargin: NumericInput;
+  effectiveDiskGbPerNode: NumericInput;
+}
+
+export interface ValidSizingInput {
   dailyRawGb: number;
   storageRatio: number;
   retentionDays: number;
