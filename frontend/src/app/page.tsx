@@ -34,11 +34,7 @@ export default function Home() {
     <main>
       <header className="page-header">
         <h1>Elastic Size Calculator</h1>
-        <p>v0.1 spreadsheet MVP</p>
       </header>
-      <p className="lead">
-        구글 스프레드시트 계산식 수준으로 단순화한 Elasticsearch 저장 용량 계산기입니다.
-      </p>
       {errors.length > 0 ? (
         <div className="error">
           <strong>입력값을 확인해 주세요.</strong>

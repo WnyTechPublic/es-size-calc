@@ -1,6 +1,6 @@
 # Elastic Size Calculator v0.1
 
-Elastic Size Calculator는 Elasticsearch 저장 용량을 구글 스프레드시트 계산식 수준으로 빠르게 산정하기 위한 frontend-only MVP입니다. 복잡한 프로파일/티어 모델링은 빼고, 기본 입력값과 계산식이 바로 보이도록 단순화했습니다.
+Elastic Size Calculator는 Elasticsearch 저장 용량을 빠르게 산정하기 위한 frontend-only 계산기입니다.
 
 ## Frontend
 

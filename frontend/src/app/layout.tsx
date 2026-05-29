@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Elastic Size Calculator",
-  description: "Elasticsearch storage size calculator v0.1 MVP",
+  description: "Elasticsearch storage size calculator",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
