@@ -2,21 +2,11 @@
 
 import { useState } from "react";
 
-import { buildSizingMarkdown } from "../lib/markdown";
+import { buildSizingMarkdown, formatGb } from "../lib/markdown";
 import type { SizingInput, SizingResult } from "../lib/types";
-import { TierResultTable } from "./TierResultTable";
-
-function formatGb(value: number): string {
-  if (value >= 1024) {
-    return `${value.toFixed(2)} GB (${(value / 1024).toFixed(2)} TB)`;
-  }
-  return `${value.toFixed(2)} GB`;
-}
 
 export function ResultSummary({ input, result }: { input: SizingInput; result: SizingResult }) {
   const [copyState, setCopyState] = useState("Markdown 복사");
-  const tierWarnings = result.tiers.flatMap((tier) => tier.warnings);
-  const warnings = [...result.warnings, ...tierWarnings];
 
   async function copyMarkdown() {
     const markdown = buildSizingMarkdown(input, result);
@@ -33,43 +23,35 @@ export function ResultSummary({ input, result }: { input: SizingInput; result: S
           {copyState}
         </button>
       </div>
-      <div className="summary-grid">
-        <div>
-          <span>일일 ES primary 저장량</span>
-          <strong>{formatGb(result.dailyPrimaryGb)}</strong>
-        </div>
-        <div>
-          <span>전체 필요 저장량</span>
-          <strong>{formatGb(result.totalWithSafetyMarginGb)}</strong>
-        </div>
-        <div>
-          <span>전체 필요 data node</span>
-          <strong>{result.totalRequiredNodes}</strong>
-        </div>
-      </div>
-
-      <div className="profile-evidence">
-        <h3>Storage Profile 근거</h3>
-        <p>
-          {result.storageProfile.name} ({result.storageProfile.id}) / {result.storageProfile.labCase} /
-          storageRatio={result.storageProfile.storageRatio}
-        </p>
-      </div>
-
-      <TierResultTable tiers={result.tiers} />
-
-      <div className="warnings">
-        <h3>주의 문구</h3>
-        {warnings.length > 0 ? (
-          <ul>
-            {warnings.map((warning) => (
-              <li key={warning}>{warning}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>특이 사항 없음</p>
-        )}
-      </div>
+      <table className="sheet-table">
+        <tbody>
+          <tr>
+            <th scope="row">일일 ES Primary</th>
+            <td>{formatGb(result.dailyPrimaryGb)}</td>
+            <td>일일 원본 수집량 × ES 저장 비율</td>
+          </tr>
+          <tr>
+            <th scope="row">보관 기간 Primary</th>
+            <td>{formatGb(result.retentionPrimaryGb)}</td>
+            <td>일일 ES Primary × 보관일수</td>
+          </tr>
+          <tr>
+            <th scope="row">Replica 포함</th>
+            <td>{formatGb(result.withReplicaGb)}</td>
+            <td>보관 기간 Primary × (1 + Replica 수)</td>
+          </tr>
+          <tr>
+            <th scope="row">여유율 포함</th>
+            <td>{formatGb(result.withSafetyMarginGb)}</td>
+            <td>Replica 포함 × (1 + 운영 여유율)</td>
+          </tr>
+          <tr>
+            <th scope="row">필요 data node</th>
+            <td>{result.requiredDataNodes}</td>
+            <td>ROUNDUP(여유율 포함 ÷ 노드당 유효 저장량)</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
   );
 }

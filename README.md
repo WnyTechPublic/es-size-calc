@@ -1,6 +1,6 @@
 # Elastic Size Calculator v0.1
 
-Elastic Size Calculator는 Elasticsearch 저장 용량 산정을 위한 frontend-only v0.1 MVP입니다. 정적 Next.js + TypeScript 앱으로 동작하며, 계산 엔진과 Storage Profile은 `frontend/src/lib`의 순수 TypeScript 모듈과 상수로 구현되어 있습니다.
+Elastic Size Calculator는 Elasticsearch 저장 용량을 구글 스프레드시트 계산식 수준으로 빠르게 산정하기 위한 frontend-only MVP입니다. 복잡한 프로파일/티어 모델링은 빼고, 기본 입력값과 계산식이 바로 보이도록 단순화했습니다.
 
 ## Frontend
 
@@ -19,16 +19,34 @@ npm run lint
 npm run build
 ```
 
+## 계산식
+
+입력값:
+
+- 일일 원본 수집량(GB/day)
+- ES 저장 비율
+- 보관일수
+- Replica 수
+- 운영 여유율
+- 노드당 유효 저장량(GB)
+
+결과값:
+
+- 일일 ES Primary = 일일 원본 수집량 × ES 저장 비율
+- 보관 기간 Primary = 일일 ES Primary × 보관일수
+- Replica 포함 = 보관 기간 Primary × (1 + Replica 수)
+- 여유율 포함 = Replica 포함 × (1 + 운영 여유율)
+- 필요 data node = ROUNDUP(여유율 포함 ÷ 노드당 유효 저장량)
+
 ## Architecture
 
 - App: static Next.js App Router under `frontend/src/app`
 - UI components: `frontend/src/components`
 - Calculation engine: `frontend/src/lib/sizingEngine.ts`
-- Storage Profile presets: `frontend/src/lib/storageProfiles.ts`
 - Input validation: `frontend/src/lib/validation.ts`
 - Markdown export: `frontend/src/lib/markdown.ts`
 
-v0.1 is entirely browser-side. It has no server runtime, database, or server-side Storage Profile filtering.
+v0.1 is entirely browser-side. It has no server runtime, database, or server-side filtering.
 
 ## GitHub Pages
 
